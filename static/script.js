@@ -3,27 +3,7 @@ const ENDPOINT = 'https://tiktok-tts.weilnet.workers.dev'
 const TEXT_BYTE_LIMIT = 300
 const textEncoder = new TextEncoder()
 
-window.onload = () => {
-    document.getElementById('charcount').textContent = `0/${TEXT_BYTE_LIMIT}`
-    const req = new XMLHttpRequest()
-    req.open('GET', `${ENDPOINT}/api/status`, false)
-    req.send()
 
-    let resp = JSON.parse(req.responseText)
-    if (resp.data) {
-        if (resp.data.available) {
-            console.info(`${resp.data.meta.dc} (age ${resp.data.meta.age} minutes) is able to provide service`)
-            enableControls()
-        } else {
-            console.error(`${resp.data.meta.dc} (age ${resp.data.meta.age} minutes) is unable to provide service`)
-            setError(
-                `Service not available${resp.data.message && resp.data.message.length > 1 ? ` (<b>"${resp.data.message}"</b>)` : ''}, try again later or check the <a href='https://github.com/Weilbyte/tiktok-tts'>GitHub</a> repository for more info`
-                )
-        }
-    } else {
-        setError('Error querying API status, try again later or check the <a href=\'https://github.com/Weilbyte/tiktok-tts\'>GitHub</a> repository for more info')
-    }  
-}
 
 const setError = (message) => {
     clearAudio()
